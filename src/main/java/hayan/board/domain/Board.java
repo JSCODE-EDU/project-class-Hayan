@@ -22,14 +22,15 @@ public class Board {
     private String password;
     private String title;
     private String content;
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @Builder
-    public Board(String name, String password, String title, String content, LocalDateTime createdAt) {
+    public Board(String name, String password, String title, String content) {
         this.name = name;
         this.password = password;
         this.title = title;
         this.content = content;
-        this.createdAt = createdAt;
+        createdAt = LocalDateTime.now();
     }
 }
