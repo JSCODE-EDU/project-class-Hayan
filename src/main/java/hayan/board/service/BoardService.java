@@ -17,8 +17,8 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public Long post(String user_name, String title, String content) {
-        Board board = Board.createBoard(user_name, title, content);
+    public Long post(String userName, String title, String content) {
+        Board board = Board.createBoard(userName, title, content);
         boardRepository.save(board);
 
         return board.getId();
@@ -28,19 +28,19 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
-    public Optional<Board> findOne(Long post_id) {
-        return boardRepository.findById(post_id);
+    public Optional<Board> findOne(Long postId) {
+        return boardRepository.findById(postId);
     }
 
     @Transactional
-    public void updateBoard(Long post_id, String title, String content) {
-        Board board = boardRepository.findById(post_id).orElseThrow();
+    public void updateBoard(Long postId, String title, String content) {
+        Board board = boardRepository.findById(postId).orElseThrow();
         board.update(title, content);
     }
 
     @Transactional
-    public void deleteById(Long post_id) {
-        boardRepository.deleteById(post_id);
+    public void deleteById(Long postId) {
+        boardRepository.deleteById(postId);
     }
 
 }

@@ -18,7 +18,7 @@ public class Board {
     @Column(name = "post_id")
     private Long id;
 
-    private String user_name;
+    private String userName;
     private String title;
     @Column(columnDefinition = "text")
     private String content;
@@ -26,16 +26,16 @@ public class Board {
     private LocalDateTime createdAt;
 
     @Builder
-    public Board(String user_name, String title, String content, LocalDateTime createdAt) {
-        this.user_name = user_name;
+    public Board(String userName, String title, String content, LocalDateTime createdAt) {
+        this.userName = userName;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
     }
 
-    public static Board createBoard(String user_name, String title, String content) {
+    public static Board createBoard(String userName, String title, String content) {
         return Board.builder()
-                .user_name(user_name)
+                .userName(userName)
                 .title(title)
                 .content(content)
                 .createdAt(LocalDateTime.now())
