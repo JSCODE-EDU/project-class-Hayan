@@ -15,4 +15,8 @@ public class ResponseDto {
         this.title = entity.getTitle();
         this.content = entity.getContent();
     }
+
+    public static ResponseDto of(Board data) {
+        return new ResponseDto(data);
+    }
 }

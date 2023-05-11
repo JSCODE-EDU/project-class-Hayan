@@ -19,15 +19,19 @@ public class BoardController {
 
     @PostMapping("/post")
     public ResponseDto post(@RequestBody PostRequestDto postRequestDto) {
-        Long postId = boardService.post(postRequestDto);
 
-        return new ResponseDto(boardService.findOne(postId).orElse(null));
+        Long postId = boardService.post(postRequestDto);
+        Board board = boardService.findOne(postId).orElse(null);
+
+        return ResponseDto.of(board);
     }
 
     @PatchMapping("/{postId}")
     public ResponseDto update(@PathVariable Long postId, @RequestBody UpdateRequestDto updateRequestDto) {
-        Long id = boardService.updateBoard(postId, updateRequestDto);
 
-        return new ResponseDto(boardService.findOne(id).orElse(null));
+        Long id = boardService.updateBoard(postId, updateRequestDto);
+        Board board = boardService.findOne(id).orElse(null);
+
+        return ResponseDto.of(board);
     }
 }
