@@ -1,26 +1,20 @@
 package hayan.board.service;
 
+import hayan.board.dto.PostRequestDto;
+import hayan.board.dto.UpdateRequestDto;
 import hayan.board.entity.Board;
 import hayan.board.repository.BoardRepository;
-import jakarta.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @Transactional
@@ -39,13 +33,15 @@ class BoardServiceTest {
         String userName1 = "testUser1";
         String title1 = "testTitle1";
         String content1 = "testContent1";
+        PostRequestDto postRequestDto1 = new PostRequestDto(userName1, title1, content1);
 
         String userName2 = "testUser2";
         String title2 = "testTitle2";
         String content2 = "testContent2";
+        PostRequestDto postRequestDto2 = new PostRequestDto(userName2, title2, content2);
 
-        postId1 = boardService.post(userName1, title1, content1);
-        postId2 = boardService.post(userName2, title2, content2);
+        postId1 = boardService.post(postRequestDto1);
+        postId2 = boardService.post(postRequestDto2);
     }
 
     @DisplayName("게시글 저장")
@@ -55,8 +51,9 @@ class BoardServiceTest {
         String userName = "testUser";
         String title = "testTitle";
         String content = "testContent";
+        PostRequestDto postRequestDto = new PostRequestDto(userName, title, content);
 
-        Long postId = boardService.post(userName, title, content);
+        Long postId = boardService.post(postRequestDto);
         Board findboard = boardRepository.findById(postId).orElse(null);
 
         assertThat(findboard.getUserName()).isEqualTo(userName);
@@ -85,7 +82,8 @@ class BoardServiceTest {
     @DisplayName("특정 게시글 수정")
     @Test
     public void updateBoard() {
-        boardService.updateBoard(postId1, "updateTitle", "updateContent");
+        UpdateRequestDto updateRequestDto = new UpdateRequestDto("updateTitle", "updateContent");
+        boardService.updateBoard(postId1, updateRequestDto);
 
         Board board = boardRepository.findById(postId1).orElse(null);
 

@@ -33,15 +33,6 @@ public class Board {
         this.createdAt = createdAt;
     }
 
-    public static Board createBoard(String userName, String title, String content) {
-        return Board.builder()
-                .userName(userName)
-                .title(title)
-                .content(content)
-                .createdAt(LocalDateTime.now())
-                .build();
-    }
-
     public void update(String title, String content) {
         this.title = title;
         this.content = content;
