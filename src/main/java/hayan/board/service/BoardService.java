@@ -42,4 +42,5 @@ public class BoardService {
     public void deleteById(Long post_id) {
         boardRepository.deleteById(post_id);
     }
+
 }
