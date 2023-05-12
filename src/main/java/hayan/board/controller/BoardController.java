@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/board")
+@RequestMapping("/boards")
 public class BoardController {
 
     private final BoardService boardService;
 
-    @PostMapping("/post")
+    @PostMapping
     public ResponseDto post(@RequestBody PostRequestDto postRequestDto) {
 
         Long postId = boardService.post(postRequestDto);
