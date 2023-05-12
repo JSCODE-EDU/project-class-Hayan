@@ -29,6 +29,9 @@ public class BoardService {
     }
 
     public Optional<Board> findOne(Long boardId) {
+        Board board = boardRepository.findById(boardId).orElseThrow(() ->
+                new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+
         return boardRepository.findById(boardId);
     }
 
