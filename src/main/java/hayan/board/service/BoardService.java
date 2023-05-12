@@ -1,7 +1,6 @@
 package hayan.board.service;
 
-import hayan.board.dto.PostRequestDto;
-import hayan.board.dto.UpdateRequestDto;
+import hayan.board.dto.RequestDto;
 import hayan.board.entity.Board;
 import hayan.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +18,10 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public Long post(PostRequestDto postRequestDto) {
+    public Board post(RequestDto.Post postRequestDto) {
         Board board = postRequestDto.toEntity();
-        boardRepository.save(board);
 
-        return board.getId();
+        return boardRepository.save(board);
     }
 
     public List<Board> findAll() {
@@ -35,13 +33,13 @@ public class BoardService {
     }
 
     @Transactional
-    public Long updateBoard(Long postId, UpdateRequestDto updateRequestDto) {
+    public Board updateBoard(Long postId, RequestDto.Update updateRequestDto) {
         Board board = boardRepository.findById(postId).orElseThrow(() ->
                 new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
 
         board.update(updateRequestDto.getTitle(), updateRequestDto.getContent());
 
-        return postId;
+        return board;
     }
 
     @Transactional

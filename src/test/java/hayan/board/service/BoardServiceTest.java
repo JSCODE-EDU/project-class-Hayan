@@ -1,7 +1,6 @@
 package hayan.board.service;
 
-import hayan.board.dto.PostRequestDto;
-import hayan.board.dto.UpdateRequestDto;
+import hayan.board.dto.RequestDto;
 import hayan.board.entity.Board;
 import hayan.board.repository.BoardRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,15 +32,15 @@ class BoardServiceTest {
         String userName1 = "testUser1";
         String title1 = "testTitle1";
         String content1 = "testContent1";
-        PostRequestDto postRequestDto1 = new PostRequestDto(userName1, title1, content1);
+        RequestDto requestDto1 = new RequestDto(userName1, title1, content1);
 
         String userName2 = "testUser2";
         String title2 = "testTitle2";
         String content2 = "testContent2";
-        PostRequestDto postRequestDto2 = new PostRequestDto(userName2, title2, content2);
+        RequestDto requestDto2 = new RequestDto(userName2, title2, content2);
 
-        postId1 = boardService.post(postRequestDto1);
-        postId2 = boardService.post(postRequestDto2);
+        postId1 = boardService.post(requestDto1);
+        postId2 = boardService.post(requestDto2);
     }
 
     @DisplayName("게시글 저장")
@@ -51,9 +50,9 @@ class BoardServiceTest {
         String userName = "testUser";
         String title = "testTitle";
         String content = "testContent";
-        PostRequestDto postRequestDto = new PostRequestDto(userName, title, content);
+        RequestDto requestDto = new RequestDto(userName, title, content);
 
-        Long postId = boardService.post(postRequestDto);
+        Long postId = boardService.post(requestDto);
         Board findboard = boardRepository.findById(postId).orElse(null);
 
         assertThat(findboard.getUserName()).isEqualTo(userName);

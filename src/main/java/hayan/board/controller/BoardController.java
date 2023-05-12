@@ -1,8 +1,7 @@
 package hayan.board.controller;
 
-import hayan.board.dto.PostRequestDto;
+import hayan.board.dto.RequestDto;
 import hayan.board.dto.ResponseDto;
-import hayan.board.dto.UpdateRequestDto;
 import hayan.board.entity.Board;
 import hayan.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -18,19 +17,16 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping
-    public ResponseDto post(@RequestBody PostRequestDto postRequestDto) {
-
-        Long postId = boardService.post(postRequestDto);
-        Board board = boardService.findOne(postId).orElse(null);
+    public ResponseDto post(@RequestBody RequestDto.Post postRequestDto) {
+        Board board = boardService.post(postRequestDto);
 
         return ResponseDto.of(board);
     }
 
     @PatchMapping("/{postId}")
-    public ResponseDto update(@PathVariable Long postId, @RequestBody UpdateRequestDto updateRequestDto) {
+    public ResponseDto update(@PathVariable Long postId, @RequestBody RequestDto.Update updateRequestDto) {
 
-        Long id = boardService.updateBoard(postId, updateRequestDto);
-        Board board = boardService.findOne(id).orElse(null);
+        Board board = boardService.updateBoard(postId, updateRequestDto);
 
         return ResponseDto.of(board);
     }
