@@ -23,10 +23,10 @@ public class BoardController {
         return ResponseDto.of(board);
     }
 
-    @PatchMapping("/{postId}")
-    public ResponseDto update(@PathVariable Long postId, @RequestBody RequestDto.Update updateRequestDto) {
+    @PatchMapping("/{boardId}")
+    public ResponseDto update(@PathVariable Long boardId, @RequestBody RequestDto.Update updateRequestDto) {
 
-        Board board = boardService.updateBoard(postId, updateRequestDto);
+        Board board = boardService.updateBoard(boardId, updateRequestDto);
 
         return ResponseDto.of(board);
     }

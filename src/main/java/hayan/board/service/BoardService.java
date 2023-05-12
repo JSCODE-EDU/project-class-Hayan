@@ -28,13 +28,13 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
-    public Optional<Board> findOne(Long postId) {
-        return boardRepository.findById(postId);
+    public Optional<Board> findOne(Long boardId) {
+        return boardRepository.findById(boardId);
     }
 
     @Transactional
-    public Board updateBoard(Long postId, RequestDto.Update updateRequestDto) {
-        Board board = boardRepository.findById(postId).orElseThrow(() ->
+    public Board updateBoard(Long boardId, RequestDto.Update updateRequestDto) {
+        Board board = boardRepository.findById(boardId).orElseThrow(() ->
                 new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
 
         board.update(updateRequestDto.getTitle(), updateRequestDto.getContent());
@@ -43,8 +43,8 @@ public class BoardService {
     }
 
     @Transactional
-    public void deleteById(Long postId) {
-        boardRepository.deleteById(postId);
+    public void deleteById(Long boardId) {
+        boardRepository.deleteById(boardId);
     }
 
 }
