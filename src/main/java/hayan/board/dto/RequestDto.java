@@ -30,7 +30,6 @@ public class RequestDto {
                     .userName(userName)
                     .title(title)
                     .content(content)
-                    .createdAt(LocalDateTime.now())
                     .build();
         }
     }

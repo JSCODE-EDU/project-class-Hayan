@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Board {
+public class Board extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,15 +22,12 @@ public class Board {
     private String title;
     @Column(columnDefinition = "text")
     private String content;
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
 
     @Builder
-    public Board(String userName, String title, String content, LocalDateTime createdAt) {
+    public Board(String userName, String title, String content) {
         this.userName = userName;
         this.title = title;
         this.content = content;
-        this.createdAt = createdAt;
     }
 
     public void update(String title, String content) {
