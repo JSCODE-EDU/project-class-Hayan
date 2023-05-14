@@ -30,6 +30,7 @@ class BoardServiceTest {
 
     private Board board1;
     private Board board2;
+
     @BeforeEach
     public void setup() {
         String userName1 = "testUser1";
@@ -46,9 +47,8 @@ class BoardServiceTest {
         board2 = boardService.post(requestDto2);
     }
 
-    @DisplayName("게시글 저장")
     @Test
-    void post() {
+    void 게시글_저장() {
 
         String userName = "testUser";
         String title = "testTitle";
@@ -62,17 +62,15 @@ class BoardServiceTest {
         assertThat(findboard.getContent()).isEqualTo(content);
     }
 
-    @DisplayName("전체 게시글 조회")
     @Test
-    void findAll() {
+    void 전체_게시글_조회() {
         List<Board> posts = boardService.findAll();
 
         assertThat(posts.size()).isEqualTo(2);
     }
 
-    @DisplayName("특정 게시글 조회")
     @Test
-    public void findbyId() {
+    void boardId로_게시글_조회() {
         Board board = boardService.findOne(board1.getId()).orElse(null);
 
         assertThat(board.getUserName()).isEqualTo("testUser1");
@@ -80,9 +78,8 @@ class BoardServiceTest {
         assertThat(board.getContent()).isEqualTo("testContent1");
     }
 
-    @DisplayName("특정 게시글 수정")
     @Test
-    public void updateBoard() {
+    void 특정_게시글_수정() {
         RequestDto.Update updateRequestDto = new RequestDto.Update("updateTitle", "updateContent");
         Board board = boardService.updateBoard(board1.getId(), updateRequestDto);
 
@@ -90,9 +87,8 @@ class BoardServiceTest {
         assertThat(board.getContent()).isEqualTo("updateContent");
     }
 
-    @DisplayName("게시글 삭제")
     @Test
-    public void deleteById() {
+    void boardId로_게시글_삭제() {
         boardService.deleteById(board1.getId());
 
         assertThat(boardRepository.findAll().size()).isEqualTo(1);
