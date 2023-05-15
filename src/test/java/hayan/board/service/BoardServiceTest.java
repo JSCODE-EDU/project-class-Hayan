@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 @Transactional
@@ -71,7 +70,7 @@ class BoardServiceTest {
 
     @Test
     void boardId로_게시글_조회() {
-        Board board = boardService.findOne(board1.getId()).orElse(null);
+        Board board = boardService.findOne(board1.getId());
 
         assertThat(board.getUserName()).isEqualTo("testUser1");
         assertThat(board.getTitle()).isEqualTo("testTitle1");

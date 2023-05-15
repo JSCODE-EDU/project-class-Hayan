@@ -9,9 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -43,7 +41,7 @@ public class BoardController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseDto searchById(@PathVariable Long boardId) {
 
-        Board board = boardService.findOne(boardId).orElse(null);
+        Board board = boardService.findOne(boardId);
         return ResponseDto.of(board);
     }
 
@@ -61,7 +59,7 @@ public class BoardController {
         return response;
     }
 
-    @DeleteMapping("{boardId}")
+    @DeleteMapping("/{boardId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long boardId) {
 
