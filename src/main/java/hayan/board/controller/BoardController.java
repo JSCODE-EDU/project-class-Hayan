@@ -2,7 +2,7 @@ package hayan.board.controller;
 
 import hayan.board.dto.RequestDto;
 import hayan.board.dto.ResponseDto;
-import hayan.board.entity.Board;
+import hayan.board.domain.Board;
 import hayan.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +43,20 @@ public class BoardController {
 
         Board board = boardService.findOne(boardId);
         return ResponseDto.of(board);
+    }
+
+    @GetMapping("/title")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ResponseDto> searchAllByTitle(@RequestParam final String title) {
+
+        List<Board> boards = boardService.findAllByTitle(title);
+
+        List<ResponseDto> response =
+                boards.stream()
+                        .map(board -> ResponseDto.of(board))
+                        .collect(Collectors.toList());
+
+        return response;
     }
 
     @GetMapping
