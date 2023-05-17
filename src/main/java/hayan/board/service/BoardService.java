@@ -1,5 +1,6 @@
 package hayan.board.service;
 
+import hayan.board.dto.RequestDto;
 import hayan.board.entity.Board;
 import hayan.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,30 +18,36 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public Long post(String userName, String title, String content) {
-        Board board = Board.createBoard(userName, title, content);
-        boardRepository.save(board);
+    public Board post(RequestDto.Post postRequestDto) {
+        Board board = postRequestDto.toEntity();
 
-        return board.getId();
+        return boardRepository.save(board);
     }
 
     public List<Board> findAll() {
         return boardRepository.findAll();
     }
 
-    public Optional<Board> findOne(Long postId) {
-        return boardRepository.findById(postId);
+    public Board findOne(Long boardId) {
+        Board board = boardRepository.findById(boardId).orElseThrow(() ->
+                new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+
+        return board;
     }
 
     @Transactional
-    public void updateBoard(Long postId, String title, String content) {
-        Board board = boardRepository.findById(postId).orElseThrow();
-        board.update(title, content);
+    public Board updateBoard(Long boardId, RequestDto.Update updateRequestDto) {
+        Board board = boardRepository.findById(boardId).orElseThrow(() ->
+                new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+
+        board.update(updateRequestDto.getTitle(), updateRequestDto.getContent());
+
+        return board;
     }
 
     @Transactional
-    public void deleteById(Long postId) {
-        boardRepository.deleteById(postId);
+    public void deleteById(Long boardId) {
+        boardRepository.deleteById(boardId);
     }
 
 }
