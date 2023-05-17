@@ -23,6 +23,7 @@ public class BoardController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseDto post(@RequestBody RequestDto.Post postRequestDto) {
+
         Board board = boardService.post(postRequestDto);
 
         return ResponseDto.of(board);
@@ -42,6 +43,7 @@ public class BoardController {
     public ResponseDto searchById(@PathVariable Long boardId) {
 
         Board board = boardService.findOne(boardId);
+
         return ResponseDto.of(board);
     }
 
@@ -49,28 +51,18 @@ public class BoardController {
     @ResponseStatus(HttpStatus.OK)
     public List<ResponseDto> searchAllByTitle(@RequestParam final String title) {
 
-        List<Board> boards = boardService.findAllByTitle(title);
+        List<ResponseDto> boards = boardService.findAllByTitle(title);
 
-        List<ResponseDto> response =
-                boards.stream()
-                        .map(board -> ResponseDto.of(board))
-                        .collect(Collectors.toList());
-
-        return response;
+        return boards;
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<ResponseDto> searchAll() {
 
-        List<Board> boards = boardService.findAll();
+        List<ResponseDto> boards = boardService.findAll();
 
-        List<ResponseDto> response =
-                boards.stream()
-                        .map(board -> ResponseDto.of(board))
-                        .collect(Collectors.toList());
-
-        return response;
+        return boards;
     }
 
     @DeleteMapping("/{boardId}")

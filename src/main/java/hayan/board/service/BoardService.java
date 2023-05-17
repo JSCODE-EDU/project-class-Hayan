@@ -2,6 +2,7 @@ package hayan.board.service;
 
 import hayan.board.dto.RequestDto;
 import hayan.board.domain.Board;
+import hayan.board.dto.ResponseDto;
 import hayan.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -25,11 +27,11 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
-    public List<Board> findAll() {
+    public List<ResponseDto> findAll() {
         Pageable pageable = PageRequest.of(0, 100);
+        List<Board> boards = boardRepository.findTop100ByOrderByCreatedAtDesc(pageable);
 
-        return boardRepository.findTop100ByOrderByCreatedAtDesc(pageable);
-//        return boardRepository.findAll();
+        return toResponses(boards);
     }
 
     public Board findOne(Long boardId) {
@@ -39,10 +41,11 @@ public class BoardService {
         return board;
     }
 
-    public List<Board> findAllByTitle(String keyword) {
+    public List<ResponseDto> findAllByTitle(String keyword) {
         Pageable pageable = PageRequest.of(0, 100);
+        List<Board> boards = boardRepository.findTop100ByTitleContainingOrderByCreatedAtDesc(pageable, keyword);
 
-        return boardRepository.findTop100ByTitleContainingOrderByCreatedAtDesc(pageable, keyword);
+        return toResponses(boards);
     }
 
     @Transactional
@@ -60,6 +63,10 @@ public class BoardService {
         boardRepository.deleteById(boardId);
     }
 
+    public List<ResponseDto> toResponses(List<Board> boards) {
 
-
+        return boards.stream()
+                .map(board -> ResponseDto.of(board))
+                .collect(Collectors.toList());
+    }
 }
