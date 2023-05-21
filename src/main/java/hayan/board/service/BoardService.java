@@ -5,8 +5,6 @@ import hayan.board.domain.Board;
 import hayan.board.dto.ResponseDto;
 import hayan.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +38,7 @@ public class BoardService {
         return board;
     }
 
-    public List<ResponseDto> findAllByTitle(String keyword) {
+    public List<ResponseDto> findAllByKeyword(String keyword) {
         List<Board> boards = boardRepository.findTop100ByTitleContainingOrderByCreatedAtDesc(keyword);
 
         return toResponses(boards);
@@ -58,6 +56,9 @@ public class BoardService {
 
     @Transactional
     public void deleteById(Long boardId) {
+        Board board = boardRepository.findById(boardId).orElseThrow(() ->
+                new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+
         boardRepository.deleteById(boardId);
     }
 

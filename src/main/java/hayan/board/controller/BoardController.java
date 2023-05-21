@@ -4,13 +4,13 @@ import hayan.board.dto.RequestDto;
 import hayan.board.dto.ResponseDto;
 import hayan.board.domain.Board;
 import hayan.board.service.BoardService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -22,7 +22,7 @@ public class BoardController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseDto post(@RequestBody RequestDto.Post postRequestDto) {
+    public ResponseDto post(@Valid @RequestBody RequestDto.Post postRequestDto) {
 
         Board board = boardService.post(postRequestDto);
 
@@ -31,7 +31,7 @@ public class BoardController {
 
     @PatchMapping("/{boardId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseDto update(@PathVariable Long boardId, @RequestBody RequestDto.Update updateRequestDto) {
+    public ResponseDto update(@PathVariable Long boardId, @Valid @RequestBody RequestDto.Update updateRequestDto) {
 
         Board board = boardService.updateBoard(boardId, updateRequestDto);
 
@@ -47,11 +47,11 @@ public class BoardController {
         return ResponseDto.of(board);
     }
 
-    @GetMapping("/title")
+    @GetMapping("/keyword")
     @ResponseStatus(HttpStatus.OK)
-    public List<ResponseDto> searchAllByTitle(@RequestParam final String title) {
+    public List<ResponseDto> searchAllByKeyword(@Valid @RequestParam RequestDto.Keyword keyword) {
 
-        List<ResponseDto> boards = boardService.findAllByTitle(title);
+        List<ResponseDto> boards = boardService.findAllByKeyword(keyword.getKeyword());
 
         return boards;
     }
