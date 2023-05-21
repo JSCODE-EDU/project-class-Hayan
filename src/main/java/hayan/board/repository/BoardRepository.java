@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
-    List<Board> findTop100ByOrderByCreatedAtDesc(Pageable pageable);
+    List<Board> findTop100ByOrderByCreatedAtDesc();
 
-    List<Board> findTop100ByTitleContainingOrderByCreatedAtDesc(Pageable pageable, String title);
+    List<Board> findTop100ByTitleContainingOrderByCreatedAtDesc(String title);
 }

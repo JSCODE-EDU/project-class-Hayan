@@ -28,8 +28,7 @@ public class BoardService {
     }
 
     public List<ResponseDto> findAll() {
-        Pageable pageable = PageRequest.of(0, 100);
-        List<Board> boards = boardRepository.findTop100ByOrderByCreatedAtDesc(pageable);
+        List<Board> boards = boardRepository.findTop100ByOrderByCreatedAtDesc();
 
         return toResponses(boards);
     }
@@ -42,8 +41,7 @@ public class BoardService {
     }
 
     public List<ResponseDto> findAllByTitle(String keyword) {
-        Pageable pageable = PageRequest.of(0, 100);
-        List<Board> boards = boardRepository.findTop100ByTitleContainingOrderByCreatedAtDesc(pageable, keyword);
+        List<Board> boards = boardRepository.findTop100ByTitleContainingOrderByCreatedAtDesc(keyword);
 
         return toResponses(boards);
     }
