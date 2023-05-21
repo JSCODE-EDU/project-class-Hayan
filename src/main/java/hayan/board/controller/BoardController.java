@@ -2,7 +2,7 @@ package hayan.board.controller;
 
 import hayan.board.dto.RequestDto;
 import hayan.board.dto.ResponseDto;
-import hayan.board.entity.Board;
+import hayan.board.domain.Board;
 import hayan.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +23,7 @@ public class BoardController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseDto post(@RequestBody RequestDto.Post postRequestDto) {
+
         Board board = boardService.post(postRequestDto);
 
         return ResponseDto.of(board);
@@ -42,21 +43,26 @@ public class BoardController {
     public ResponseDto searchById(@PathVariable Long boardId) {
 
         Board board = boardService.findOne(boardId);
+
         return ResponseDto.of(board);
+    }
+
+    @GetMapping("/title")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ResponseDto> searchAllByTitle(@RequestParam final String title) {
+
+        List<ResponseDto> boards = boardService.findAllByTitle(title);
+
+        return boards;
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<ResponseDto> searchAll() {
 
-        List<Board> boards = boardService.findAll();
+        List<ResponseDto> boards = boardService.findAll();
 
-        List<ResponseDto> response =
-                boards.stream()
-                        .map(board -> ResponseDto.of(board))
-                        .collect(Collectors.toList());
-
-        return response;
+        return boards;
     }
 
     @DeleteMapping("/{boardId}")
