@@ -3,6 +3,8 @@ package hayan.board.service;
 import hayan.board.dto.RequestDto;
 import hayan.board.domain.Board;
 import hayan.board.dto.ResponseDto;
+import hayan.board.exception.CustomException;
+import hayan.board.exception.ErrorInformation;
 import hayan.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,8 +34,8 @@ public class BoardService {
     }
 
     public Board findOne(Long boardId) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() ->
-                new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new CustomException(ErrorInformation.POST_NOT_FOUND));
 
         return board;
     }
@@ -46,8 +48,8 @@ public class BoardService {
 
     @Transactional
     public Board updateBoard(Long boardId, RequestDto.Update updateRequestDto) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() ->
-                new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new CustomException(ErrorInformation.POST_NOT_FOUND));
 
         board.update(updateRequestDto.getTitle(), updateRequestDto.getContent());
 
@@ -56,8 +58,8 @@ public class BoardService {
 
     @Transactional
     public void deleteById(Long boardId) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() ->
-                new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new CustomException(ErrorInformation.POST_NOT_FOUND));
 
         boardRepository.deleteById(boardId);
     }
