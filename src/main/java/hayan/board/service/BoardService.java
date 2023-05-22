@@ -3,10 +3,10 @@ package hayan.board.service;
 import hayan.board.dto.RequestDto;
 import hayan.board.domain.Board;
 import hayan.board.dto.ResponseDto;
+import hayan.board.exception.CustomException;
+import hayan.board.exception.ErrorInformation;
 import hayan.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,30 +28,28 @@ public class BoardService {
     }
 
     public List<ResponseDto> findAll() {
-        Pageable pageable = PageRequest.of(0, 100);
-        List<Board> boards = boardRepository.findTop100ByOrderByCreatedAtDesc(pageable);
+        List<Board> boards = boardRepository.findTop100ByOrderByCreatedAtDesc();
 
         return toResponses(boards);
     }
 
     public Board findOne(Long boardId) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() ->
-                new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new CustomException(ErrorInformation.POST_NOT_FOUND));
 
         return board;
     }
 
-    public List<ResponseDto> findAllByTitle(String keyword) {
-        Pageable pageable = PageRequest.of(0, 100);
-        List<Board> boards = boardRepository.findTop100ByTitleContainingOrderByCreatedAtDesc(pageable, keyword);
+    public List<ResponseDto> findAllByKeyword(String keyword) {
+        List<Board> boards = boardRepository.findTop100ByTitleContainingOrderByCreatedAtDesc(keyword);
 
         return toResponses(boards);
     }
 
     @Transactional
     public Board updateBoard(Long boardId, RequestDto.Update updateRequestDto) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() ->
-                new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new CustomException(ErrorInformation.POST_NOT_FOUND));
 
         board.update(updateRequestDto.getTitle(), updateRequestDto.getContent());
 
@@ -60,6 +58,9 @@ public class BoardService {
 
     @Transactional
     public void deleteById(Long boardId) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new CustomException(ErrorInformation.POST_NOT_FOUND));
+
         boardRepository.deleteById(boardId);
     }
 
