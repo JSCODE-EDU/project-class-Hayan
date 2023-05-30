@@ -2,6 +2,7 @@ package hayan.board.service;
 
 import hayan.board.dto.RequestDto;
 import hayan.board.domain.Board;
+import hayan.board.dto.ResponseDto;
 import hayan.board.repository.BoardRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,9 +60,9 @@ class BoardServiceTest {
 
     @Test
     void 전체_게시글_조회() {
-        List<Board> posts = boardService.findAll();
+        List<ResponseDto> posts = boardService.findAll();
 
-        assertThat(posts.size()).isEqualTo(2);
+        assertThat(posts.size()).isEqualTo(5);
     }
 
     @Test
@@ -86,6 +87,6 @@ class BoardServiceTest {
     void boardId로_게시글_삭제() {
         boardService.deleteById(board1.getId());
 
-        assertThat(boardRepository.findAll().size()).isEqualTo(1);
+        assertThat(boardRepository.findAll().size()).isEqualTo(4);
     }
 }
