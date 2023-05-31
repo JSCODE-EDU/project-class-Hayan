@@ -1,11 +1,9 @@
-package hayan.board.exception;
+package hayan.global.exception;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
