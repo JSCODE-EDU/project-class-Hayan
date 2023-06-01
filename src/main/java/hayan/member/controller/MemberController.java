@@ -24,4 +24,11 @@ public class MemberController {
 
         memberService.signUp(requestDto.getEmail(), requestDto.getPassword());
     }
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public void logIn(@RequestBody RequestDto requestDto) {
+
+        memberService.logIn(requestDto.getEmail(), requestDto.getPassword());
+    }
 }

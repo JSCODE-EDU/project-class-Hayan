@@ -21,12 +21,17 @@ public class MemberService {
     public void signUp(String email, String password) {
         validateDuplication(email);
 
-        Member member = new Member(email, password);
+        String encryptedPassword = passwordEncoder.encode(password);
+
+        Member member = new Member(email, encryptedPassword);
 
         memberRepository.save(member);
     }
 
+    @Transactional
+    public void logIn(String email, String password) {
 
+    }
 
     private void validateDuplication(String email) {
         if (memberRepository.existsByEmail(email)) {
